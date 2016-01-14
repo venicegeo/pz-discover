@@ -7,6 +7,7 @@ A service for registering, discovering, and subscribing to services and resource
 Java JDK version 6 or later.
 
 [Leiningen](http://leiningen.org/#install)
+
 [kafka-devbox](https://github.com/venicegeo/kafka-devbox) - up and running
 
 ## Usage
