@@ -2,9 +2,12 @@
   (:require [com.stuartsierra.component :as component]
             [clojure.tools.logging :as log]
             [clj-logging-config.log4j :as log-config]
+            [clj-kafka.new.producer :as p]
+            [clj-kafka.consumer.zk :as c]
             [org.httpkit.server :as http]
             [zookeeper :as zk]
             [pz-discover.config :as config]
+            [pz-discover.ingestor :as i]
             [pz-discover.routes :as r]))
 
 (defrecord Logging [config]
@@ -45,14 +48,39 @@
     (log/info "Zookeeper client closed.")
     (dissoc this :client)))
 
-(defrecord Router [config logging zookeeper]
+(defrecord Ingestor [config logging zookeeper]
+  component/Lifecycle
+  (start [this]
+    (let [consumer-config (-> config :kafka :consumer)
+          consumer (c/consumer consumer-config)]
+      (i/ingest consumer (:client zookeeper))
+      (log/info "Ingesting infrastructure messages on 1 thread...")
+      (assoc this :consumer consumer)))
+  (stop [this]
+    (log/info "Shutting down infrastructure message ingestion.")
+    (c/shutdown (:consumer this))
+    (dissoc this :consumer)))
+
+(defrecord Broadcaster [config logging zookeeper]
+  component/Lifecycle
+  (start [this]
+    (let [producer-config (-> config :kafka :producer)
+          producer (p/producer producer-config (p/byte-array-serializer) (p/byte-array-serializer))]
+      (log/info "Broadcaster started.")
+      (assoc this :producer producer)))
+  (stop [this]
+    (.close (:producer this))
+    (log/info "Broadcaster shutdown.")
+    (dissoc this :producer)))
+
+(defrecord Router [config logging zookeeper broadcaster]
   component/Lifecycle
   (start [this]
     (assoc this :routes (r/app)))
   (stop [this]
     (dissoc this :routes)))
 
-(defrecord Server [port config logging router]
+(defrecord Server [port config logging broadcaster router]
   component/Lifecycle
   (start [this]
     (if (:stop! this)
@@ -81,5 +109,7 @@
    :config        (component/using (config/lookup) [])
    :logging       (component/using (map->Logging {}) [:config])
    :zookeeper     (component/using (map->Zookeeper {}) [:config :logging])
-   :router        (component/using (map->Router {}) [:config :logging :zookeeper])
+   :ingestor      (component/using (map->Ingestor {}) [:config :logging :zookeeper])
+   :broadcaster   (component/using (map->Broadcaster {}) [:config :logging :zookeeper])
+   :router        (component/using (map->Router {}) [:config :logging :zookeeper :broadcaster])
    :server        (component/using (map->Server {:port (java.lang.Integer. port)}) [:config :logging :router])))

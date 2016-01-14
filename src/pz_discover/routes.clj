@@ -11,20 +11,34 @@
             [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [ring.middleware.content-type :refer [wrap-content-type]]
+            [pz-discover.broadcaster :as broadcaster]
             [pz-discover.controllers.services :as services]
             [pz-discover.system :refer [current-system]])
   (:import [java.util UUID]))
 
+(defn- zookeeper []
+  (-> current-system :zookeeper :client))
+
+(defn- producer []
+  (-> current-system :broadcaster :producer))
+
 (defroutes api-routes
   (context "/api/v1" []
-           (GET "/resources/type/:type" [type] (services/lookup-svc-type (-> current-system :zookeeper :client) type))
-           (PUT "/resources" request (services/register-svc (-> current-system :zookeeper :client) request))
-           (POST "/resources" request (services/update-svc (-> current-system :zookeeper :client) request))
-           (DELETE "/resources/:name" [name] (services/delete-svc (-> current-system :zookeeper :client) name))
-           (GET "/resources/:name" [name] (services/lookup-svc (-> current-system :zookeeper :client) name))))
+           (GET "/resources/type/:type" [type] (services/lookup-svc-type (zookeeper) type))
+           (PUT "/resources/subscribe" request (broadcaster/subscribe-to-nodes! (zookeeper)
+                                                                                (producer)
+                                                                                (-> request :params :nodes)))
+           (POST "/resources/subscribe" request (broadcaster/add-nodes-to-listener! (zookeeper)
+                                                                                    (producer)
+                                                                                    (-> request :params :topic)
+                                                                                    (-> request :params :nodes)))
+           (PUT "/resources" request (services/register-svc (zookeeper) request))
+           (POST "/resources" request (services/update-svc (zookeeper) request))
+           (DELETE "/resources/:name" [name] (services/delete-svc (zookeeper) name))
+           (GET "/resources/:name" [name] (services/lookup-svc (zookeeper) name))))
 
 (defroutes all-routes
-  (GET "/health-check" [] {:env (-> current-system :config :env)})
+  (GET "/health-check" [] (str (-> current-system :config :env)))
   api-routes)
 
 (defn wrap-stacktrace

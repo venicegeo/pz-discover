@@ -27,26 +27,52 @@
                  :zookeeper {:host "localhost"
                              :port "2181"
                              :chroot "/pz.services"}
+                 :kafka {:producer {"bootstrap.servers" "localhost:9092"}
+                         :consumer {"zookeeper.connect" "localhost:2181"
+                                    "group.id" "dev.pz.discover"
+                                    "auto.commit.enable" "true"}}
                  :env :dev}
    :test        {:logging base-log-config
                  :zookeeper {:host "localhost"
                              :port "2181"
                              :chroot "/pz.services"}
+                 :kafka {:producer {"bootstrap.servers" "localhost:9092"}
+                         :consumer {"zookeeper.connect" "localhost:2181"
+                                    "group.id" "test.pz.discover"
+                                    "auto.commit.enable" "true"}}
                  :env :test}
    :staging     {:logging base-log-config
                  :zookeeper {:host (get-config-value "ZK_HOST")
                              :port (get-config-value "ZK_PORT")
                              :chroot (get-config-value "ZK_CHROOT")}
+                 :kafka {:producer {"bootstrap.servers" (get-config-value "KAFKA_BROKERS")}
+                         :consumer {"zookeeper.connect" (format "%s:%s"
+                                                                (get-config-value "ZK_HOST")
+                                                                (get-config-value "ZK_PORT"))
+                                    "group.id" (get-config-value "GROUP_ID")
+                                    "auto.commit.enable" "true"}}
                  :env :staging}
    :integration {:logging base-log-config
                  :zookeeper {:host (get-config-value "ZK_HOST")
                              :port (get-config-value "ZK_PORT")
                              :chroot (get-config-value "ZK_CHROOT")}
+                 :kafka {:producer {"bootstrap.servers" (get-config-value "KAFKA_BROKERS")}
+                         :consumer {"zookeeper.connect" (format "%s:%s"
+                                                                (get-config-value "ZK_HOST")
+                                                                (get-config-value "ZK_PORT"))
+                                    "group.id" (get-config-value "GROUP_ID")
+                                    "auto.commit.enable" "true"}}
                  :env :integration}
    :production  {:logging base-log-config
                  :zookeeper {:host (get-config-value "ZK_HOST")
                              :port (get-config-value "ZK_PORT")
                              :chroot (get-config-value "ZK_CHROOT")}
+                 :kafka {:producer {"bootstrap.servers" (get-config-value "KAFKA_BROKERS")}
+                         :consumer {"zookeeper.connect" (format "%s:%s"
+                                                                (get-config-value "ZK_HOST")
+                                                                (get-config-value "ZK_PORT"))
+                                    "group.id" (get-config-value "GROUP_ID")
+                                    "auto.commit.enable" "true"}}
                  :env :production}})
 
 (defn lookup []
