@@ -12,12 +12,17 @@
     (sv/shape-response 200 :body data)
     (sv/shape-response 404)))
 
+(defn lookup-all [zookeeper]
+  (if-let [data (sm/all-names zookeeper)]
+    (sv/shape-response 200 :body data)
+    (sv/shape-response 404)))
+
 (defn register-svc [zookeeper request]
   (let [name (-> request :params :name)
         data (-> request :params :data)]
     (if-let [result (sm/register-by-name zookeeper name data)]
       (sv/shape-response 201 :body result)
-      (sv/shape-response 303 :headers {"Location" (format "/api/v1/services/%s" name)}))))
+      (sv/shape-response 303 :headers {"Location" (format "/api/v1/resources/%s" name)}))))
 
 (defn update-svc [zookeeper request]
   (let [name (-> request :params :name)

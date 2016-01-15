@@ -35,7 +35,8 @@
            (PUT "/resources" request (services/register-svc (zookeeper) request))
            (POST "/resources" request (services/update-svc (zookeeper) request))
            (DELETE "/resources/:name" [name] (services/delete-svc (zookeeper) name))
-           (GET "/resources/:name" [name] (services/lookup-svc (zookeeper) name))))
+           (GET "/resources/:name" [name] (services/lookup-svc (zookeeper) name))
+           (GET "/resources" request (services/lookup-all (zookeeper)))))
 
 (defroutes all-routes
   (GET "/health-check" [] (str (-> current-system :config :env)))

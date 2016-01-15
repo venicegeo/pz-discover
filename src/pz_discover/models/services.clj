@@ -10,6 +10,11 @@
           d/to-string
           read-string))))
 
+(defn all-names [client]
+  (let [children (zk/children client "/names")]
+    (reduce (fn [a child]
+              (assoc a (keyword child) (by-name client child))) {} children)))
+
 (defn by-type [client type]
   (let [node (format "/types/%s" type)]
     (when (zk/exists client node)
