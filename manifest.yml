@@ -6,4 +6,4 @@ applications:
   instances: 1
   timeout: 80
   env:
-    PORT: "3000"
+    JBP_CONFIG_JAVA_MAIN: '{arguments: "-p=80"}'
