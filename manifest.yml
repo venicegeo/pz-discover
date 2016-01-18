@@ -1,6 +1,7 @@
 applications:
 - name: pz-discover
   host: pz-discover
+  path: app.jar
   memory: 512M
   instances: 1
   timeout: 80
