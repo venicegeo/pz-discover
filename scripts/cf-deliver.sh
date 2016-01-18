@@ -8,4 +8,4 @@ popd > /dev/null
 source $base/vars.sh
 
 # do we have this artifact in s3? If not, fail.
-[ -f $base/../app.jar ] || { aws s3 ls $S3URL && aws s3 cp $S3URL $base/../app.jar || exit 1; }
+[ -f $base/../app.$EXT ] || { aws s3 ls $S3URL && aws s3 cp $S3URL $base/../app.$EXT || exit 1; }

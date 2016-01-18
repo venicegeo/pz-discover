@@ -8,7 +8,7 @@ popd > /dev/null
 lein do clean, uberjar
 
 # the path where the artifact is
-jarfile=$base/../target/uberjar/refapp-0.1.0-standalone.jar
+jarfile=$base/../target/uberjar/$APP-0.1.0-standalone.$EXT
 
 # gather some data about the repo
 source $base/vars.sh
