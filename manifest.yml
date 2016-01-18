@@ -6,4 +6,4 @@ applications:
   instances: 1
   timeout: 80
   env:
-    JBP_CONFIG_JAVA_MAIN: '{arguments: "-p=80 -DZK_HOST=ec2-52-72-6-152.compute-1.amazonaws.com -DZK_PORT=2181 -DENV=production"}'
+    JBP_CONFIG_JAVA_MAIN: '{arguments: "-p=80 -DGROUP_ID=prod.pz.discover -DKAFKA_BROKERS=localhost:9092 -DZK_CHROOT=/pz.services -DZK_HOST=ec2-52-72-6-152.compute-1.amazonaws.com -DZK_PORT=2181 -DENV=production"}'
