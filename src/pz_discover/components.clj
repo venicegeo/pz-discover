@@ -104,9 +104,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defn system
-  [{:keys [port] :as options}]
+  [{:keys [config-file port] :as options}]
   (component/system-map
-   :config        (component/using (config/lookup) [])
+   :config        (component/using (config/map->Config options) [])
    :logging       (component/using (map->Logging {}) [:config])
    :zookeeper     (component/using (map->Zookeeper {}) [:config :logging])
    :ingestor      (component/using (map->Ingestor {}) [:config :logging :zookeeper])

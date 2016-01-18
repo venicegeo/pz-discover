@@ -1,4 +1,8 @@
-(ns pz-discover.config)
+(ns pz-discover.config
+  (:require [com.stuartsierra.component :as component]))
+
+;; File-based config data
+(def ^:dynamic configfile-data {})
 
 (def base-log-config
   (if-not (empty? (System/getProperty "catalina.base"))
@@ -78,3 +82,18 @@
 (defn lookup []
   (let [env (keyword (get-config-value "ENV" "dev"))]
     (env (app-config))))
+
+(defrecord Config [config-file]
+  component/Lifecycle
+  (start [component]
+    (when config-file
+      (let [data (-> config-file slurp read-string)]
+        (alter-var-root #'configfile-data (constantly data))))
+    (let [m (lookup)]
+      (if ((:env m) #{:production :integration})
+        (alter-var-root #'*warn-on-reflection* (constantly false))
+        (alter-var-root #'*warn-on-reflection* (constantly true)))
+      (merge component m)))
+  (stop
+    [component]
+    component))
