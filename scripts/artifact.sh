@@ -7,11 +7,11 @@ popd > /dev/null
 # this step builds our artifact
 lein do clean, uberjar
 
-# the path where the artifact is
-jarfile=$base/../target/uberjar/$APP-0.1.0-standalone.$EXT
-
 # gather some data about the repo
 source $base/vars.sh
+
+# the path where the artifact is
+jarfile=$base/../target/uberjar/$APP-0.1.0-standalone.$EXT
 
 # do we have this artifact in s3? If not, upload it.
 aws s3 ls $S3URL || aws s3 cp $jarfile $S3URL
