@@ -1,5 +1,6 @@
 (ns pz-discover.broadcaster
   (:require [clojure.data.json :as json]
+            [clojure.set :as set]
             [clj-kafka.new.producer :as p]
             [zookeeper :as zk])
   (:import [java.util UUID]))
@@ -27,11 +28,11 @@
 
 (defn add-nodes-to-listener! [zookeeper producer topic nodes]
   (let [l-nodes ((keyword topic) @listener-nodes)
-        new-nodes (clojure.set/difference (set nodes) l-nodes)]
+        new-nodes (set/difference (set nodes) l-nodes)]
     (swap! listener-nodes (fn [curr]
                             (let [topic-key (keyword topic)
                                   curr-nodes (topic-key curr)]
-                              (assoc curr topic-key (clojure.set/union curr-nodes (set nodes))))))
+                              (assoc curr topic-key (set/union curr-nodes (set nodes))))))
     (doseq [node new-nodes]
       (watch-node! zookeeper producer node))))
 
