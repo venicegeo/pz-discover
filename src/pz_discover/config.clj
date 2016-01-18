@@ -28,6 +28,7 @@
 
 (defn app-config []
   {:dev         {:logging base-log-config
+                 :port 3000
                  :zookeeper {:host "localhost"
                              :port "2181"
                              :chroot "/pz.services"}
@@ -37,6 +38,7 @@
                                     "auto.commit.enable" "true"}}
                  :env :dev}
    :test        {:logging base-log-config
+                 :port 3000
                  :zookeeper {:host "localhost"
                              :port "2181"
                              :chroot "/pz.services"}
@@ -46,6 +48,7 @@
                                     "auto.commit.enable" "true"}}
                  :env :test}
    :staging     {:logging base-log-config
+                 :port (get-config-value "PORT")
                  :zookeeper {:host (get-config-value "ZK_HOST")
                              :port (get-config-value "ZK_PORT")
                              :chroot (get-config-value "ZK_CHROOT")}
@@ -57,6 +60,7 @@
                                     "auto.commit.enable" "true"}}
                  :env :staging}
    :integration {:logging base-log-config
+                 :port (get-config-value "PORT")
                  :zookeeper {:host (get-config-value "ZK_HOST")
                              :port (get-config-value "ZK_PORT")
                              :chroot (get-config-value "ZK_CHROOT")}
@@ -68,6 +72,7 @@
                                     "auto.commit.enable" "true"}}
                  :env :integration}
    :production  {:logging base-log-config
+                 :port (get-config-value "PORT")
                  :zookeeper {:host (get-config-value "ZK_HOST")
                              :port (get-config-value "ZK_PORT")
                              :chroot (get-config-value "ZK_CHROOT")}

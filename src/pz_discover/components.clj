@@ -88,7 +88,7 @@
       (let [server (-> this
                        :router
                        :routes
-                       (http/run-server {:port (or port 0)}))
+                       (http/run-server {:port (or port (-> config :port) 0)}))
             port (-> server meta :local-port)]
         (log/logf :info "Web server running on port %d" port)
         (assoc this :stop! server :port port))))
@@ -112,4 +112,4 @@
    :ingestor      (component/using (map->Ingestor {}) [:config :logging :zookeeper])
    :broadcaster   (component/using (map->Broadcaster {}) [:config :logging :zookeeper])
    :router        (component/using (map->Router {}) [:config :logging :zookeeper :broadcaster])
-   :server        (component/using (map->Server {:port (java.lang.Integer. port)}) [:config :logging :router])))
+   :server        (component/using (map->Server {:port (when port (java.lang.Integer. port))}) [:config :logging :router])))

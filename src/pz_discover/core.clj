@@ -24,7 +24,7 @@
   (go options))
 
 (def cli-options
-  [["-p" "--port PORT" "Web server listening on port" :default 3000]
+  [["-p" "--port PORT" "Web server listening on port" :default nil]
    ["-c" "--config-file FILE" "Configuration file name"]
    ["-v" nil "Verbosity level"
     :id :verbosity
