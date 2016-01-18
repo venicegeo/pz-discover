@@ -1,9 +1,10 @@
 applications:
 - name: pz-discover
   host: pz-discover
-  path: app.jar
   memory: 512M
   instances: 1
   timeout: 80
   env:
-    JBP_CONFIG_JAVA_MAIN: '{arguments: "-DPORT=80 -DGROUP_ID=prod.pz.discover -DKAFKA_BROKERS=localhost:9092 -DZK_CHROOT=/pz.services -DZK_HOST=ec2-52-72-6-152.compute-1.amazonaws.com -DZK_PORT=2181 -DENV=production"}'
+    PORT: "3333"
+    JBP_LOG_LEVEL: DEBUG
+    JBP_CONFIG_JAVA_MAIN: '{arguments: "-DPORT=3333 -DGROUP_ID=prod.pz.discover -DKAFKA_BROKERS=localhost:9092 -DZK_CHROOT=/pz.services -DZK_HOST=ec2-52-72-6-152.compute-1.amazonaws.com -DZK_PORT=2181 -DENV=production"}'
