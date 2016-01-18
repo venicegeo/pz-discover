@@ -6,5 +6,5 @@ applications:
   instances: 1
   timeout: 80
   env:
-    PORT: "80"
-    JAVA_OPTS: '-DPORT=80 -DGROUP_ID=prod.pz.discover -DKAFKA_BROKERS=localhost:9092 -DZK_CHROOT=/pz.services -DZK_HOST=ec2-52-72-6-152.compute-1.amazonaws.com -DZK_PORT=2181 -DENV=production'
+    PORT: "8080"
+    JAVA_OPTS: '-DPORT=8080 -DGROUP_ID=prod.pz.discover -DKAFKA_BROKERS=localhost:9092 -DZK_CHROOT=/pz.services -DZK_HOST=ec2-52-72-6-152.compute-1.amazonaws.com -DZK_PORT=2181 -DENV=production'
