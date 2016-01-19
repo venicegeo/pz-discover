@@ -7,4 +7,4 @@ applications:
   timeout: 180
   env:
     CF_INSTANCE_PORTS: '[{external:2181,internal:2181}]'
-    JAVA_OPTS: '-DGROUP_ID=prod.pz.discover -DKAFKA_BROKERS=localhost:9092 -DZK_CHROOT=/pz.services -DZK_HOST=ec2-52-72-6-152.compute-1.amazonaws.com -DZK_PORT=2181 -DENV=production'
+    JAVA_OPTS: '-DGROUP_ID=prod.pz.discover -DKAFKA_BROKERS=ec2-52-20-255-33.compute-1.amazonaws.com:9092 -DZK_CHROOT=/pz.services -DZK_HOST=ec2-52-72-6-152.compute-1.amazonaws.com -DZK_PORT=2181 -DENV=production'
