@@ -61,12 +61,15 @@
   [handler]
   (fn [request]
     (let [request-token (str (UUID/randomUUID))
-          tokenized-request (assoc request :token request-token)]
-      (log/info (format "\n Start: %s \n Time: %s \n Request: \n %s"
-                        request-token (t/now) request))
+          tokenized-request (assoc request :token request-token)
+          log-fn (if (= :dev (-> current-system :config :env))
+                   (fn [s] (log/info s))
+                   (fn [s] (log/debug s)))]
+      (log-fn (format "\n Start: %s \n Time: %s \n Request: \n %s"
+                      request-token (t/now) request))
       (let [response (handler tokenized-request)]
-        (log/info (format "\n End: %s \n Time: %s \n Response: \n %s"
-                          request-token (t/now) response))
+        (log-fn (format "\n End: %s \n Time: %s \n Response: \n %s"
+                        request-token (t/now) response))
         response))))
 
 (defn app []

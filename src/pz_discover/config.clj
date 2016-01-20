@@ -32,7 +32,7 @@
                  :zookeeper {:host "localhost"
                              :port "2181"
                              :chroot "/pz.services"}
-                 :kafka {:producer {"bootstrap.servers" "localhost:9092"}
+                 :kafka {:producer {"bootstrap.servers" "kafka.dev:9092"}
                          :consumer {"zookeeper.connect" "localhost:2181"
                                     "group.id" "dev.pz.discover"
                                     "auto.commit.enable" "true"}}
@@ -42,7 +42,7 @@
                  :zookeeper {:host "localhost"
                              :port "2181"
                              :chroot "/pz.services"}
-                 :kafka {:producer {"bootstrap.servers" "localhost:9092"}
+                 :kafka {:producer {"bootstrap.servers" "kafka.dev:9092"}
                          :consumer {"zookeeper.connect" "localhost:2181"
                                     "group.id" "test.pz.discover"
                                     "auto.commit.enable" "true"}}

@@ -8,7 +8,8 @@
             [zookeeper :as zk]
             [pz-discover.config :as config]
             [pz-discover.ingestor :as i]
-            [pz-discover.routes :as r]))
+            [pz-discover.routes :as r]
+            [pz-discover.util :as util]))
 
 (defrecord Logging [config]
   component/Lifecycle
@@ -34,14 +35,11 @@
                               (-> config :zookeeper :port))
                       (-> config :zookeeper :chroot))
           client (zk/connect zk-str)]
-      (when-not (zk/exists setup-client (-> config :zookeeper :chroot))
-        (zk/create setup-client (-> config :zookeeper :chroot) :persistent? true))
+      (util/setup-zk-env! setup-client (-> config :zookeeper :chroot))
       (zk/close setup-client)
+      (util/register-kafka! client (-> config :kafka))
+      (util/register-zookeeper! client (-> config :zookeeper))
       (log/info (format "Zookeeper client connected at %s." zk-str))
-      (when-not (zk/exists client "/names")
-        (zk/create client "/names" :persistent? true))
-      (when-not (zk/exists client "/types")
-        (zk/create client "/types" :persistent? true))
       (assoc this :client client)))
   (stop [this]
     (zk/close (:client this))
