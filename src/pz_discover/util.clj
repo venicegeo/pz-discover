@@ -15,9 +15,15 @@
 
 (defn register-kafka! [client kafka-config]
   (let [kafka-data {:type "infrastructure"
-                    :brokers (get-in kafka-config [:producer "bootstrap.servers"])}]
-    (sm/register-by-name client "kafka" kafka-data)))
+                    :host (get-in kafka-config [:producer "bootstrap.servers"])}]
+    (when-not (sm/register-by-name client "kafka" kafka-data)
+      (sm/update-by-name client "kafka" kafka-data))))
 
 (defn register-zookeeper! [client zookeeper-config]
-  (let [zk-data (assoc zookeeper-config :type "infrastructure")]
-    (sm/register-by-name client "zookeeper" zk-data)))
+  (let [zk-normalized {:host (format "%s:%s%s"
+                                     (:host zookeeper-config)
+                                     (:port zookeeper-config)
+                                     (:chroot zookeeper-config))}
+        zk-data (assoc zk-normalized :type "infrastructure")]
+    (when-not (sm/register-by-name client "zookeeper" zk-data)
+      (sm/update-by-name client "zookeeper" zk-data))))
