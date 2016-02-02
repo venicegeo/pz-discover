@@ -46,14 +46,15 @@
 
 (defn update-by-name [client name data]
   (let [node (format "/names/%s" name)]
-    (when-let [version (:version (zk/exists client node))]
+    (if-let [version (:version (zk/exists client node))]
       (let [current-type (:type (by-name client name))
             new-type (:type data)]
         (do (zk/set-data client node (d/to-bytes (pr-str data)) version)
             (when-not (= current-type new-type)
               (do (delete-type-name client current-type name)
                   (create-type-name client new-type name)))
-            (by-name client name))))))
+            (by-name client name)))
+      (register-by-name client name data))))
 
 (defn delete-by-name [client name]
   (let [node (format "/names/%s" name)]
