@@ -1,6 +1,6 @@
 applications:
-- name: pz-discover
-  host: pz-discover
+- name: pz-discover-${GIT_REVISION}
+  host: pz-discover-${GIT_REVISION}
   path: app.jar
   memory: 1G
   instances: 1
