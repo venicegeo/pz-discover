@@ -1,3 +1,11 @@
 #!/bin/bash -ex
 
-lein do clean, test
+pushd `dirname $0/..` > /dev/null
+root=$(pwd -P)
+popd > /dev/null
+
+wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
+chmod 700 $root/lein
+
+
+$root/lein do clean, test
