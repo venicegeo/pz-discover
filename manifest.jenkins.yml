@@ -1,6 +1,6 @@
 applications:
 - name: pz-discover
-  host: pz-discover.staging
+  host: pz-discover-staging
   path: pz-discover.jar
   memory: 1G
   instances: 1
