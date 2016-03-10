@@ -13,7 +13,7 @@ source $root/scripts/vars.sh
 
 # the path where the artifact is
 srcfile=$root/target/$APP-*-standalone.$EXT
-file=$APP.$SHA.$EXT
+file=$APP.$SHORT.$EXT
 
 # this step builds our artifact
 [ -f $srcfile ] || lein do clean, uberjar
@@ -28,8 +28,8 @@ mvn deploy:deploy-file \
   -Durl=$NEXUSURL \
   -DrepositoryId=$REPOSITORY \
   -Dfile=$file \
-  -DgeneratePom=$genpom
+  -DgeneratePom=$genpom \
   -DgroupId=core \
   -DartifactId=$APP \
-  -Dversion=$SHA \
+  -Dversion=$SHORT \
   -Dpackaging=$EXT
