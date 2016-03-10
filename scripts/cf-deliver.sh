@@ -19,10 +19,10 @@ mvn dependency:get \
   -Dversion=$SHORT
 
 mvn dependency:copy \
-  -DgroupId=io.piazzageo \
-  -DartifactId=$APP \
-  -Dversion=$SHORT \
-  -Dtype=$EXT \
-  -DoverWrite=true \
-  -DoutputDirectory=$root \
-  -DdestFileName=app.$EXT
+  -Dartifact.groupId=io.piazzageo \
+  -Dartifact.artifactId=$APP \
+  -Dartifact.version=$SHORT \
+  -Dartifact.type=$EXT \
+  -Dartifact.overWrite=true \
+  -Dartifact.outputDirectory=$root \
+  -Dartifact.destFileName=app.$EXT
