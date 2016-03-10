@@ -16,13 +16,5 @@ mvn dependency:get \
   -DgroupId=io.piazzageo \
   -Dpackaging=$EXT \
   -Dtransitive=false \
+  -Ddestination=$root/app.$EXT \
   -Dversion=$SHORT
-
-mvn dependency:copy \
-  -DgroupId=core \
-  -DartifactId=$APP \
-  -Dversion=$SHORT \
-  -Dtype=$EXT \
-  -DoverWrite=true \
-  -DoutputDirectory=$root \
-  -DdestFileName=app.$EXT
