@@ -12,10 +12,13 @@ export PATH=$PATH:$root/scripts
 source $root/scripts/vars.sh
 
 # the path where the artifact is
-jarfile=$root/target/$APP-*-standalone.$EXT
+srcfile=$root/target/$APP-*-standalone.$EXT
+file=$APP.$SHA.$EXT
 
 # this step builds our artifact
 [ -f $jarfile ] || lein do clean, uberjar
+
+mv $jarfile $file
 
 # pom?
 [ -f $root/pom.xml ] && genpom=false || genpom=false
@@ -24,7 +27,7 @@ jarfile=$root/target/$APP-*-standalone.$EXT
 mvn deploy:deploy-file \
   -Durl=$NEXUSURL \
   -DrepositoryId=$REPOSITORY \
-  -Dfile=$jarfile \
+  -Dfile=$file \
   -DgeneratePom=$genpom
   -DgroupId=core \
   -DartifactId=$APP \
