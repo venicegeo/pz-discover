@@ -16,9 +16,9 @@ srcfile=$root/target/$APP-*-standalone.$EXT
 file=$APP.$SHA.$EXT
 
 # this step builds our artifact
-[ -f $jarfile ] || lein do clean, uberjar
+[ -f $srcfile ] || lein do clean, uberjar
 
-mv $jarfile $file
+mv $srcfile $file
 
 # pom?
 [ -f $root/pom.xml ] && genpom=false || genpom=false
