@@ -25,10 +25,10 @@ mv $src $ARTIFACT
 # push artifact to nexus
 mvn deploy:deploy-file \
   -Durl=$NEXUSURL \
-  -DrepositoryId=Piazza \
+  -DrepositoryId=nexus \
   -Dfile=$ARTIFACT \
   -DgeneratePom=$genpom \
-  -DgroupId=core \
+  -DgroupId=io.piazzageo \
   -DartifactId=$APP \
   -Dversion=$SHORT \
   -Dpackaging=$EXT

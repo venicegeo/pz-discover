@@ -10,7 +10,7 @@ source $root/scripts/vars.sh
 [ -f $root/app.$EXT ] && exit
 
 mvn dependency:get \
-  -Dartifact=core:$APP:$SHORT:$EXT \
+  -Dartifact=io.piazzageo:$APP:$SHORT:$EXT \
   -DremoteRepositories=$NEXUSURL
 
 mvn dependency:copy \
