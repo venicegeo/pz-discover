@@ -25,7 +25,7 @@ mv $src $ARTIFACT
 # push artifact to nexus
 mvn deploy:deploy-file \
   -Durl=$NEXUSURL \
-  -DrepositoryId=$REPOSITORY \
+  -DrepositoryId=Piazza \
   -Dfile=$ARTIFACT \
   -DgeneratePom=$genpom \
   -DgroupId=core \
