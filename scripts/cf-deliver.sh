@@ -20,6 +20,6 @@ mvn dependency:get \
 
 mvn dependency:copy \
   -Dartifact=io.piazzageo:$APP:$SHORT:$EXT \
-  -DstripVersion=true
+  -DstripVersion=true \
   -DoverWriteIfNewer=true \
   -DoutputDirectory=$root
