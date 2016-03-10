@@ -10,7 +10,7 @@ source $root/scripts/vars.sh
 [ -f $root/app.$EXT ] && exit
 
 mvn dependency:get \
-  -DremoteRepositories=$NEXUSURL \
+  -DremoteRepositories=nexus::default::$NEXUSURL \
   -DrepositoryId=nexus \
   -DartifactId=$APP \
   -DgroupId=io.piazzageo \
@@ -19,10 +19,10 @@ mvn dependency:get \
   -Dversion=$SHORT
 
 mvn dependency:copy \
-    -DgroupId=core \
-    -DartifactId=$APP \
-    -Dversion=$SHORT \
-    -Dtype=$EXT \
-    -DoverWrite=true \
-    -DoutputDirectory=$root \
-    -DdestFileName=app.$EXT
+  -DgroupId=core \
+  -DartifactId=$APP \
+  -Dversion=$SHORT \
+  -Dtype=$EXT \
+  -DoverWrite=true \
+  -DoutputDirectory=$root \
+  -DdestFileName=app.$EXT
