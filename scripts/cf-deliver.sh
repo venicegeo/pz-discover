@@ -19,7 +19,7 @@ mvn dependency:get \
   -Dversion=$SHORT
 
 mvn dependency:copy \
-  -DgroupId=core \
+  -DgroupId=io.piazzageo \
   -DartifactId=$APP \
   -Dversion=$SHORT \
   -Dtype=$EXT \
