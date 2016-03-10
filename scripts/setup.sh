@@ -4,7 +4,6 @@ pushd `dirname $0`/.. > /dev/null
 root=$(pwd -P)
 popd > /dev/null
 
-wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
-chmod 700 $root/lein
+! type lein >/dev/null 2>&1 && source $root/scripts/lein.sh
 
-$root/lein do clean, with-profile -user deps :tree
+lein do clean, with-profile -user deps :tree

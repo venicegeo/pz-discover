@@ -4,9 +4,9 @@ APP=pz-discover
 EXT=jar
 SHA=$(git rev-parse HEAD)
 SHORT=$(git rev-parse --short HEAD)
+
 ARTIFACT="$SHA.$EXT"
-S3BUCKET="venice-artifacts"
-S3KEY=$APP/$ARTIFACT
-S3URL=s3://$S3BUCKET/$S3KEY
-STACK="$APP-$SHORT"
+REPOSITORY="Piazza"
+NEXUSURL=https://nexus.devops.geointservices.io/content/repositories/$REPOSITORY
+
 DOMAIN="cf.piazzageo.io"
