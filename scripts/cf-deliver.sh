@@ -15,6 +15,7 @@ mvn dependency:get \
   -DartifactId=$APP \
   -DgroupId=io.piazzageo \
   -Dpackaging=$EXT \
+  -Dtransitive=false \
   -Dversion=$SHORT
 
 mvn dependency:copy \
