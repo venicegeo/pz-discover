@@ -7,7 +7,7 @@ popd > /dev/null
 # gather some data about the repo
 source $root/scripts/vars.sh
 
-[ -f $root/app.$EXT ] && exit
+[ -f $root/$APP.$EXT ] && exit
 
 mvn dependency:get \
   -DremoteRepositories=nexus::default::$NEXUSURL \
@@ -16,10 +16,12 @@ mvn dependency:get \
   -DgroupId=io.piazzageo \
   -Dpackaging=$EXT \
   -Dtransitive=false \
-  -Dversion=$SHORT
+  -Dversion=$VERSION
 
 mvn dependency:copy \
-  -Dartifact=io.piazzageo:$APP:$SHORT:$EXT \
+  -Dartifact=io.piazzageo:$APP:$VERSION:$EXT \
   -DstripVersion=true \
   -DoverWriteIfNewer=true \
   -DoutputDirectory=$root
+
+mv $root/$ARTIFACT $root/$APP.$EXT

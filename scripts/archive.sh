@@ -30,5 +30,5 @@ mvn deploy:deploy-file \
   -DgeneratePom=$genpom \
   -DgroupId=io.piazzageo \
   -DartifactId=$APP \
-  -Dversion=$SHORT \
+  -Dversion=$VERSION \
   -Dpackaging=$EXT

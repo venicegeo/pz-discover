@@ -2,6 +2,6 @@
 
 APP=pz-discover
 EXT=jar
-SHORT=$(git rev-parse --short HEAD)
-ARTIFACT=$APP.$SHORT.$EXT
+VERSION=$(git rev-parse --short HEAD)
+ARTIFACT=$APP.$VERSION.$EXT
 NEXUSURL=https://nexus.devops.geointservices.io/content/repositories/Piazza
