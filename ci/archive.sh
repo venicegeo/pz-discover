@@ -17,4 +17,5 @@ src=$root/target/$APP-*-standalone.$EXT
 # this step builds our artifact
 [ -f $src ] || lein do clean, uberjar
 
-mv $src $ARTIFACT
+# stage the artifact for a mvn deploy
+mv $src $root/$APP.$EXT
