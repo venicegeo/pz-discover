@@ -2,6 +2,7 @@ applications:
 - name: pz-discover
   host: pz-discover-staging
   path: pz-discover.jar
+  buildpack: java_buildpack_offline
   memory: 1G
   instances: 1
   timeout: 180
