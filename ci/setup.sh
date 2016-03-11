@@ -4,8 +4,8 @@ pushd `dirname $0`/.. > /dev/null
 root=$(pwd -P)
 popd > /dev/null
 
-export PATH=$PATH:$root/scripts
+export PATH=$PATH:$root/ci
 
-! type lein >/dev/null 2>&1 && source $root/scripts/lein.sh
+! type lein >/dev/null 2>&1 && source $root/ci/lein.sh
 
 lein do clean, with-profile -user deps :tree

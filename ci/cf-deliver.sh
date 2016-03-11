@@ -5,7 +5,7 @@ root=$(pwd -P)
 popd > /dev/null
 
 # gather some data about the repo
-source $root/scripts/vars.sh
+source $root/ci/vars.sh
 
 [ -f $root/$APP.$EXT ] && exit
 
