@@ -1,0 +1,12 @@
+applications:
+- name: pz-discover
+  host: pz-discover
+  path: pz-discover.jar
+  buildpack: java_buildpack_offline
+  domain: test.geointservices.io
+  memory: 1G
+  instances: 1
+  timeout: 180
+  env:
+    CF_INSTANCE_PORTS: '[{external:2181,internal:2181}]'
+    JAVA_OPTS: '-DGROUP_ID=prod.pz.discover -DKAFKA_BROKERS=172.32.125.104:9092 -DZK_CHROOT=/pz.services -DZK_HOST=172.32.118.79 -DZK_PORT=2181 -DENV=production'
